@@ -146,9 +146,7 @@ fun MainView(
 
                 Spacer(modifier = Modifier.height(8.dp))
 
-                Column(
-                    verticalArrangement = Arrangement.spacedBy(8.dp)
-                ) {
+                Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
                     for (post in blog.posts) {
                         PostView(author = blog.authors[0], post = post)
                     }
@@ -192,11 +190,10 @@ fun AuthorView(
                 .size(64.dp)
                 .clip(RoundedCornerShape(50)),
             model = author.avatar,
-            contentDescription = author.name,
-            onError = {
-                println("err $it")
-            }
+            contentDescription = author.name
         )
+
+        Spacer(modifier = Modifier.height(6.dp))
 
         Text(
             text = author.name,
@@ -214,48 +211,47 @@ fun PostView(
     author: Author,
     post: Post
 ) {
-    Row(
+    Column(
         modifier = modifier
             .fillMaxWidth()
             .clip(RoundedCornerShape(16.dp))
             .background(MaterialTheme.colorScheme.secondaryContainer)
             .padding(8.dp)
     ) {
-        AsyncImage(
-            modifier = Modifier
-                .size(32.dp)
-                .clip(RoundedCornerShape(50)),
-            model = author.avatar,
-            contentDescription = author.name,
-            onError = {
-                println("err $it")
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            AsyncImage(
+                modifier = Modifier
+                    .size(32.dp)
+                    .clip(RoundedCornerShape(50)),
+                model = author.avatar,
+                contentDescription = author.name
+            )
+
+            Spacer(modifier = Modifier.width(8.dp))
+
+            Text(text = author.name)
+
+            Spacer(modifier = Modifier.weight(1f))
+
+            if (post.dateModified != null) {
+                Icon(
+                    modifier = Modifier.size(16.dp),
+                    imageVector = Icons.Filled.Edit,
+                    contentDescription = "post was edited"
+                )
+
+                Spacer(modifier = Modifier.width(4.dp))
+
+                Text(text = formatter.format(OffsetDateTime.parse(post.dateModified)))
+            } else {
+                Text(text = formatter.format(OffsetDateTime.parse(post.datePublished)))
             }
-        )
+        }
 
-        Spacer(modifier = Modifier.width(8.dp))
+        Spacer(modifier = Modifier.height(8.dp))
 
-        Column {
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                Text(text = author.name)
-
-                Spacer(modifier = Modifier.weight(1f))
-
-                if (post.dateModified != null) {
-                    Icon(
-                        modifier = Modifier.size(16.dp),
-                        imageVector = Icons.Filled.Edit,
-                        contentDescription = "post was edited"
-                    )
-
-                    Spacer(modifier = Modifier.width(4.dp))
-
-                    Text(text = formatter.format(OffsetDateTime.parse(post.dateModified)))
-                } else {
-                    Text(text = formatter.format(OffsetDateTime.parse(post.datePublished)))
-                }
-            }
-
-            Spacer(modifier = Modifier.height(8.dp))
+        Row {
+            Spacer(modifier = Modifier.width(40.dp))
 
             SelectionContainer(
                 modifier = Modifier
