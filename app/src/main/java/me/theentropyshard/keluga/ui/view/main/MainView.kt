@@ -18,7 +18,6 @@
 
 package me.theentropyshard.keluga.ui.view.main
 
-import androidx.compose.runtime.getValue
 import androidx.compose.foundation.background
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
@@ -35,13 +34,17 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.selection.SelectionContainer
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material3.Button
+import androidx.compose.material3.Icon
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -54,8 +57,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import me.theentropyshard.keluga.model.Author
 import coil3.compose.AsyncImage
+import me.theentropyshard.keluga.model.Author
 import me.theentropyshard.keluga.model.Post
 import java.time.OffsetDateTime
 import java.time.format.DateTimeFormatter
@@ -75,7 +78,9 @@ fun MainView(
     Column(modifier = modifier) {
         Row(verticalAlignment = Alignment.CenterVertically) {
             OutlinedTextField(
-                modifier = Modifier.fillMaxWidth().weight(1f),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .weight(1f),
                 value = instanceUrl,
                 onValueChange = { instanceUrl = it },
                 placeholder = { Text(text = "Enter instance URL") },
@@ -130,7 +135,7 @@ fun MainView(
                         withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
                             append(instanceUrl)
                         }
-                        
+
                         append(". Make sure you entered the main page without slash at the end.")
                     }
                 )
@@ -233,9 +238,21 @@ fun PostView(
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Text(text = author.name)
 
-                Spacer(modifier = Modifier.width(8.dp))
+                Spacer(modifier = Modifier.weight(1f))
 
-                Text(text = formatter.format(OffsetDateTime.parse(post.datePublished)))
+                if (post.dateModified != null) {
+                    Icon(
+                        modifier = Modifier.size(16.dp),
+                        imageVector = Icons.Filled.Edit,
+                        contentDescription = "post was edited"
+                    )
+
+                    Spacer(modifier = Modifier.width(4.dp))
+
+                    Text(text = formatter.format(OffsetDateTime.parse(post.dateModified)))
+                } else {
+                    Text(text = formatter.format(OffsetDateTime.parse(post.datePublished)))
+                }
             }
 
             Spacer(modifier = Modifier.height(8.dp))

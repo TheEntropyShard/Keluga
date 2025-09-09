@@ -36,6 +36,9 @@ data class Post(
     @SerializedName("date_published")
     val datePublished: String,
 
+    @SerializedName("date_modified")
+    val dateModified: String?,
+
     @SerializedName("attachments")
     val attachments: List<Attachment>,
 )
