@@ -196,7 +196,7 @@ fun AuthorView(
     }
 }
 
-private val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss")
+private val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")
 
 @Composable
 fun PostView(
