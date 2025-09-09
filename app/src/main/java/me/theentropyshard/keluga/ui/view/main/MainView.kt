@@ -125,8 +125,13 @@ fun MainView(
                             append("beluga.json")
                         }
 
-                        append(" at $instanceUrl. Make sure you entered the main page" +
-                                " without slash at the end")
+                        append(" at ")
+
+                        withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
+                            append(instanceUrl)
+                        }
+                        
+                        append(". Make sure you entered the main page without slash at the end.")
                     }
                 )
             }
