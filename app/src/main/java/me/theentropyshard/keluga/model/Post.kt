@@ -28,10 +28,10 @@ data class Post(
     val url: String,
 
     @SerializedName("content_text")
-    val contextText: String,
+    val contentText: String,
 
     @SerializedName("content_html")
-    val contextHtml: String,
+    val contentHtml: String,
 
     @SerializedName("date_published")
     val datePublished: String,
